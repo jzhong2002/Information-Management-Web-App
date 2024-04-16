@@ -1,5 +1,5 @@
 <?php
-require_once 'config/db.php';
+require_once __DIR__ . '/../config/db.php';
 require_once 'config/functions.php';
 
 // Filter logic
@@ -184,14 +184,8 @@ $stmt->close();
 </head>
 <body class="bg-dark">
 <div class="sidenav">
-    <a href="../home.php">🏠 Home</a>
-    <a href="../records/index.php">📖 Book Records</a>
-    <a href="../issuelist/index.php" class="image-link"><img src="../img/group.png" class="link-image"> Members</a>
-    <a href="../penalty/index.php">💵 Penalty List</a>
-    <a href="../login/index.php">🖥️ Admin Panel</a>
-    <a href="../login/logout.php">🏃 Log Out</a>
-    <a href="../contact.php">📬 Contact Us</a>
-</div>
+        <?php include '../navigation/navigation.php'; // This file will contain the navigation pane ?>
+	</div>
 
 <div class="main">
     <div class="container">
@@ -267,7 +261,7 @@ $stmt->close();
                                     <td><?php echo $row['status']; ?></td>
                                     <td>
                                         <!-- This button will trigger the deletion process when clicked. -->
-                                        <button class="btn btn-danger custom-btn" href="?action=delete&id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
+                                        <a href="?action=delete&id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this record?')" class="btn btn-danger custom-btn">Delete</a>
                                     </td>
                                 </tr>
                             <?php endwhile; ?> 

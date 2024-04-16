@@ -1,7 +1,8 @@
 <?php
-require_once 'config/db.php';
+require_once __DIR__ . '/../config/db.php';
 require_once 'config/functions.php';
 $result = display_data();
+
 ?>
 
 <!DOCTYPE html>
@@ -86,9 +87,12 @@ $result = display_data();
         }
     });
         function confirmDelete(bookId) {
+            console.log("Book ID: " + bookId);
             if (confirm("Are you sure you want to delete this book?")) {
                 window.location.href = "index.php?action=delete&book_id=" + bookId;
+                console.log("Book deleted successfully!");
             }
+            console.log("Book not deleted!");
         }
         if(isset($_POST['submitFile']))
     {
@@ -97,14 +101,8 @@ $result = display_data();
     </script>
 </head>
 <body class="bg-dark">
-<div class="sidenav">
-		<a href="../home.php">🏠 Home</a>
-		<a href="index.php">📖 Book Records</a>
-		<a href="../issuelist/index.php" class="image-link"><img src="../img/group.png" class="link-image"> Members</a>
-		<a href="../penalty/index.php">💵 Penalty List</a>
-		<a href="../login/index.php">🖥️ Admin Panel</a>
-		<a href="../login/logout.php">🏃 Log Out</a>
-		<a href="../contact.php">📬 Contact Us</a>
+    <div class="sidenav">
+        <?php include '../navigation/navigation.php'; // This file will contain the navigation pane ?>
 	</div>
 
     <div class="main">

@@ -1,33 +1,67 @@
 <?php
-	session_start();
-	
-	require_once 'conn.php';
-	
-	if(ISSET($_POST['login'])){
-		if($_POST['username'] != "" && $_POST['password'] != ""){
-			$username = $_POST['username'];
-			// md5 encrypted
-			// $password = md5($_POST['password']);
-			$password = $_POST['password'];
-			$sql = "SELECT * FROM `users` WHERE `username`=? AND `password`=? ";
-			$query = $conn->prepare($sql);
-			$query->execute(array($username,$password));
-			$row = $query->rowCount();
-			$fetch = $query->fetch();
-			if($row > 0) {
-				$_SESSION['user'] = $fetch['id'];
-				header("location: ../admin/index.php");
-			} else{
-				echo "
-				<script>alert('Invalid username or password')</script>
-				<script>window.location = 'index.php'</script>
-				";
-			}
-		}else{
-			echo "
-				<script>alert('Please complete the required field!')</script>
-				<script>window.location = 'index.php'</script>
-			";
+session_start();
+require_once 'conn.php';
+
+
+function authenticateUser($username, $password)
+{
+	echo "authenticateUser has been called.";
+    global $conn; // Access the $conn variable from the global scope
+
+    $query = "SELECT * FROM users WHERE username = :username";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':username', $username);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+	echo "User: ";
+	print_r($user);
+
+    if ($user) {
+		echo "User exists.";
+        // Verify the password
+        // if (password_verify($password, $user['password'])) {
+        //     // Authentication successful
+		// 	echo "Authentication successful.";
+        //     return $user;
+        // }
+		if ($password == $user['password']) {
+			// Authentication successful
+			echo "Authentication successful.";
+			return $user;
 		}
+    }
+
+    return false; // Authentication failed
+}
+
+if (isset($_POST['adminLogin'])) {
+	echo "Form has been submitted.";
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+	//echo username and password together as a sentence
+	if (isset($_POST['username'], $_POST['password'])) {
+		echo "Username and password are set.";
+	} else {
+		echo "Username and password are not set.";
 	}
+	echo "Username: " . $username . " Password: " . $password;
+    $user = authenticateUser($username, $password);
+
+    if ($user) {
+        // User authentication successful
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['is_online'] = true;
+
+        // Redirect to the admin panel or desired page
+		echo "Redirecting to admin panel.";
+        header("Location: ../admin/index.php");
+        exit();
+    } else {
+        // Authentication failed
+        $_SESSION['message'] = [
+            'alert' => 'danger',
+            'text' => 'Invalid username or password.'
+        ];
+    }
+}
 ?>

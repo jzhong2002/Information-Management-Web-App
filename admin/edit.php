@@ -1,6 +1,8 @@
 <?php
-require_once 'config/db.php';
+require_once __DIR__ . '/../config/db.php';
 require_once 'config/functions.php';
+
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $users_id = $_POST["id"];
@@ -73,6 +75,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h2 class="display-6 text-center">Edit Record</h2>
                     </div>
                     <div class="card-body">
+                        <?php if (isset($success) && $success === true): ?>
+                            <div class="alert alert-success" role="alert">
+                                Profile details updated successfully!
+                            </div>
+                        <?php elseif (isset($error)): ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?php echo $error; ?>
+                            </div>
+                        <?php endif; ?>
                         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                             <input type="hidden" name="id" value="<?php echo $users['id']; ?>">
                             <div class="form-group">
