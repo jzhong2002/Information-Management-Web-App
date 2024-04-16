@@ -2,39 +2,71 @@
 	session_start();
 	
 	require_once 'conn.php';
+
+	function authenticateUser($username, $password, $job_role)
+	{
+		echo "authenticateUser has been called.";
+		global $conn; // Access the $conn variable from the global scope
 	
-	if(ISSET($_POST['login'])){
-		if($_POST['username'] != "" && $_POST['password'] != ""){
-			$username = $_POST['username'];
-			$password = $_POST['password'];
-			$sql = "SELECT * FROM `users` WHERE `username`=? AND `password`=? ";
-			$query = $conn->prepare($sql);
-			$query->execute(array($username,$password));
-			$row = $query->rowCount();
-			$fetch = $query->fetch();
-			if($row > 0) {
-				$_SESSION['users'] = $fetch['id'];
-				echo "
-				<script>
-					alert('Logged in successfully');
-					window.location.href = '../home.php';
-				</script>
-				";
-			} else{
-				echo "
-				<script>
-					alert('Invalid username or password');
-					window.location.href = 'index.php';
-				</script>
-				";
+		$query = "SELECT * FROM users WHERE username = :username";
+		$stmt = $conn->prepare($query);
+		$stmt->bindParam(':username', $username);
+		$stmt->execute();
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+		echo "User: ";
+		print_r($user);
+	
+		if ($user) {
+			echo "User exists.";
+			// Verify the password
+			// if (password_verify($password, $user['password'])) {
+			//     // Authentication successful
+			// 	echo "Authentication successful.";
+			//     return $user;
+			// }
+			if ($password == $user['password'] && $job_role == $user['job_role']) {
+				// Authentication successful
+				echo "Authentication successful.";
+				return $user;
 			}
-		}else{
-			echo "
-			<script>
-				alert('Please complete the required field!');
-				window.location.href = 'index.php';
-			</script>
-			";
+		}
+	
+		return false; // Authentication failed
+	}
+	
+	if (isset($_POST['staffLogin'])) {
+		echo "Form has been submitted.";
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$job_role = $_POST['job_role'];
+		//echo username and password together as a sentence
+		if (isset($_POST['username'], $_POST['password'], $_POST['job_role'])) {
+			echo "Username and password are set.";
+		} else {
+			echo "Username and password are not set.";
+		}
+		echo "Username: " . $username . " Password: " . $password;
+		$user = authenticateUser($username, $password, $job_role);
+	
+		if ($user) {
+			// User authentication successful
+			// Instantiate everything
+			$_SESSION['user_id'] = $user['id'];
+			$_SESSION['username'] = $user['username'];
+			$_SESSION['job_role'] = $user['job_role'];
+			$_SESSION['is_online'] = true;
+	
+			// Redirect to the staff panel or desired page
+			echo "Redirecting to staff panel.";
+			header("Location: ../home.php");
+			exit();
+		} else {
+			// Authentication failed
+			$_SESSION['message'] = [
+				'alert' => 'danger',
+				'text' => 'Invalid credentials or you do not have access rights into the staff panel.'
+			];
 		}
 	}
+
 ?>

@@ -259,10 +259,6 @@ $stmt->close();
                                     <td><?php echo $row['book_name']; ?></td>
                                     <td><?php echo $row['expiry_date']; ?></td>
                                     <td><?php echo $row['status']; ?></td>
-                                    <td>
-                                        <!-- This button will trigger the deletion process when clicked. -->
-                                        <a href="?action=delete&id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this record?')" class="btn btn-danger custom-btn">Delete</a>
-                                    </td>
                                 </tr>
                             <?php endwhile; ?> 
                         </tbody>

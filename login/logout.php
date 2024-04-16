@@ -55,7 +55,7 @@
 	<div class="container">
 		<h1>Logout Successful</h1>
 		<p>You have been successfully logged out.</p>
-		<button onclick="window.location.href = 'login.php';">Back to Login</button>
+		<button onclick="window.location.href = '../digitallibrary.php';">Back to Login</button>
 	</div>
 </body>
 </html>

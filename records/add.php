@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $query = "INSERT INTO records (name, author, genre, price, stock, publish_date, location) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $con->prepare($query);
-    $stmt->bind_param("sssisis", $name, $author, $genre, $price, $stock, $publish_date, $location);
+    $stmt->bind_param("sssssss", $name, $author, $genre, $price, $stock, $publish_date, $location);
 
     if ($stmt->execute()) {
         $success = true;

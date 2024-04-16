@@ -64,6 +64,7 @@ $stmt->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <title>Admin Area</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -244,9 +245,7 @@ $stmt->close();
         </div>
     </div>
     </a>
-    <a href="index.php" class="image-link"><img src="../img/group.png" class="link-image"> Manage Staff</a>
-    <a href="../home.php">🖥️ Staff Panel</a>
-    <a href="../login/logout.php">🏃 Log Out</a>
+    <?php include '../navigation/adminnavigation.php'; // This file will contain the navigation pane ?>
 </div>
 
 <div class="main">

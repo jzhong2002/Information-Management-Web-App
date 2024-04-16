@@ -1,7 +1,30 @@
 <?php
+session_start();  // Starting Session
+
 require_once __DIR__ . '/../config/db.php';
 require_once 'config/functions.php';
-$result = display_data();
+
+if(!isset($_SESSION['user_id']) || !isset($_SESSION['is_online'])){
+    header('Location: ../login/login.php');
+    exit();
+}
+// Get the admin name and status
+$user_id = $_SESSION['user_id'];
+$user_name = $_SESSION['username'];
+$user_status_class = $_SESSION['is_online'] ? 'online' : 'offline';
+$user_job_role = $_SESSION['job_role'];
+
+if (isset($user_id)) {
+    if (($user_job_role != 'Staff')) {
+        header('Location: ../login/login.php');
+        exit();
+    } else {
+        $result = display_data();
+    }
+} else {
+    header('Location: ../login/login.php');
+    exit();
+} 
 
 ?>
 

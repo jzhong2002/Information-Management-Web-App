@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="text" class="form-control" id="username" name="username" value="<?php echo $users['username']; ?>" required>
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
+                                <label for="password">New Password</label>
                                 <input type="text" class="form-control" id="password" name="password" value="<?php echo $users['password']; ?>" required>
                             </div>
                             <div class="form-group">

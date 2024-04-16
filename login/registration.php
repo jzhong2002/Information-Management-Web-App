@@ -58,7 +58,7 @@
 				<div class="form-group">
 					<button class="btn btn-primary form-control" name="register">Register</button>
 				</div>
-				<a href="login.php">Login</a>
+				<a href="../digitallibrary.php">Login</a>
 			</form>
 		</div>
 	</div>

@@ -248,10 +248,6 @@ if (!$result) {
                                     <td>£<?php echo number_format($row['amount_due'], 2); ?></td>
                                     <td><?php echo $row['expiry_date']; ?></td>
                                     <td><?php echo $row['status']; ?></td>
-                                    <td>
-                                        <!-- This button will trigger the deletion process when clicked. -->
-                                        <button class="btn btn-danger custom-btn" href="?action=delete&id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
-                                    </td>
                                 </tr>
                             <?php endwhile; ?>
                         </tbody>
