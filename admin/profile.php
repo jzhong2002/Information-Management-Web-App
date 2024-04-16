@@ -1,45 +1,26 @@
 <?php
-require_once 'config/db.php';
+session_start();
+require_once __DIR__ . '/../config/db.php';
 require_once 'config/functions.php';
 
-session_start();
-
-if (isset($SESSION['admin_id'])) {
-    $admin_id = $_SESSION['admin_id'];
+if(!isset($_SESSION['user_id']) || !isset($_SESSION['is_online'])){
+    echo "Session variables are not set";
+    header('Location: ../login/index.php');
+    exit();
 }
 
-$admin_id = $_SESSION['admin_id'];
+$role = null;
 
-// If the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstname = $_POST["firstname"];
-    $surname = $_POST["surname"];
-    $gender = $_POST["gender"];
-    $date_of_birth = $_POST["date_of_birth"];
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $job_role = $_POST["job_role"];
+$admin_id = $_SESSION['user_id'];
 
-    $query = "UPDATE users SET firstname = ?, surname = ?, gender = ?, date_of_birth = ?, username = ?, password = ?, job_role = ? WHERE id = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("sssssssi", $firstname, $surname, $gender, $date_of_birth, $username, $password, $job_role, $admin_id);
-
-    if ($stmt->execute()) {
-        $success = true;
-    } else {
-        $error = "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
-} else {
-    $query = "SELECT * FROM users WHERE id = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("i", $admin_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $admin = $result->fetch_assoc();
-    $stmt->close();
-}
+//Fetch the admin details
+$query = "SELECT * FROM users WHERE id = ?";
+$stmt = $con->prepare($query);
+$stmt->bind_param('i', $admin_id); // Bind the integer parameter
+$stmt->execute();
+$result = $stmt->get_result(); // Get the result set from the prepared statement
+$admin = $result->fetch_assoc(); // Fetch associative array directly
+$stmt->close(); // Close the statement
 ?>
 
 <!DOCTYPE html>
@@ -77,37 +58,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <br>
                             <a href="change_profile_picture.php" class="btn btn-primary mt-2">Change Profile Picture</a>
                         </div>
-                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-                            <div class="form-group">
-                                <label for="firstname">Firstname</label>
-                                <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $admin['firstname']; ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="surname">Surname</label>
-                                <input type="text" class="form-control" id="surname" name="surname" value="<?php echo $admin['surname']; ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="gender">Gender</label>
-                                <input type="text" class="form-control" id="gender" name="gender" value="<?php echo $admin['gender']; ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="date_of_birth">Date of Birth</label>
-                                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="<?php echo $admin['date_of_birth']; ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" value="<?php echo $admin['username']; ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="text" class="form-control" id="password" name="password" value="<?php echo $admin['password']; ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="job_role">Job Role</label>
-                                <input type="text" class="form-control" id="job_role" name="job_role" value="<?php echo $admin['job_role']; ?>" required>
-                            </div>
-                            <button type="submit" class="btn btn-success">Update Profile</button>
-                        </form>
+                        <h5>Firstname: <?php echo isset($admin['firstname']) ? $admin['firstname'] : ''; ?></h5>
+                        <h5>Surname: <?php echo isset($admin['surname']) ? $admin['surname'] : ''; ?></h5>
+                        <h5>Gender: <?php echo isset($admin['gender']) ? $admin['gender'] : ''; ?></h5>
+                        <h5>Date of Birth: <?php echo isset($admin['date_of_birth']) ? $admin['date_of_birth'] : ''; ?></h5>
+                        <h5>Username: <?php echo isset($admin['username']) ? $admin['username'] : ''; ?></h5>
+                        <h5>Job Role: <?php echo isset($admin['job_role']) ? $admin['job_role'] : ''; ?></h5>
+                        <h5>Password: <?php echo isset($admin['password']) ? $admin['password'] : ''; ?></h5>
+                        <h5>job_role: <?php echo isset($admin['job_role']) ? $admin['job_role'] : ''; ?></h5>
+                        <a href="edit.php?id=<?php echo $admin['id']; ?>" class="btn btn-primary">Edit Profile</a>
+                        <a href="index.php" class="btn btn-secondary">Back</a>
                     </div>
                 </div>
             </div>

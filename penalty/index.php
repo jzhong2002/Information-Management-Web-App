@@ -1,5 +1,5 @@
 <?php
-require_once 'config/db.php';
+require_once __DIR__ . '/../config/db.php';
 require_once 'config/functions.php';
 
 // Filter logic
@@ -169,13 +169,7 @@ if (!$result) {
 </head>
 <body class="bg-dark">
 <div class="sidenav">
-    <a href="../home.php">🏠 Home</a>
-    <a href="../records/index.php">📖 Book Records</a>
-    <a href="../issuelist/index.php" class="image-link"><img src="../img/group.png" class="link-image"> Members</a>
-    <a href="index.php">💵 Penalty List</a>
-    <a href="../login/index.php">🖥️ Admin Panel</a>
-    <a href="../login/logout.php">🏃 Log Out</a>
-    <a href="../contact.php">📬 Contact Us</a>
+    <?php include '../navigation/navigation.php'; // This file will contain the navigation pane ?>
 </div>
 
 <div class="main">

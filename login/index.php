@@ -1,55 +1,4 @@
-<?php 
 
-session_start(); 
-$_SESSION['is_online'] = true;
-
-?>
-<?php
-function authenticateUser($username, $password)
-{
-    global $con; // Access the $con variable from the global scope
-
-    $query = "SELECT * FROM users WHERE username = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-
-        // Verify the password
-        if (password_verify($password, $user['password'])) {
-            // Authentication successful
-            return $user;
-        }
-    }
-
-    return false; // Authentication failed
-}
-?>
-<?php
-if (isset($_POST['submit'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $user = authenticateUser($username, $password);
-
-    if ($user) {
-        // User authentication successful
-        session_start();
-        $_SESSION['username'] = $user['username'] . ' ' . $user['username'];
-        $_SESSION['is_online'] = true;
-
-        // Redirect to the admin panel or desired page
-        header("Location: index.php");
-        exit();
-    } else {
-        // Authentication failed
-        $error = "Invalid username or password.";
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -110,14 +59,14 @@ if (isset($_POST['submit'])) {
 				</div>
 				<br />
 				<div class="form-group">
-					<button class="btn btn-primary form-control" name="login">Login</button>
+					<button class="btn btn-primary form-control" name="adminLogin">Login</button>
 				</div>
 				<div class="form-group">
 				</div>
 				<div class="link-container">
 				<a href="registration.php">Registration</a>
 				<a href="../home.php" class="back-link" name="back">Back</a>
-			</div>
+				</div>
 			</form>
 		</div>
 	</div>

@@ -1,11 +1,17 @@
 <?php
-require_once 'config/db.php';
+session_start();
+require_once __DIR__ . '/../config/db.php';
 require_once 'config/functions.php';
 
-$_SESSION['is_online'] = true;
+if(!isset($_SESSION['user_id']) || !isset($_SESSION['is_online'])){
+    header('Location: ../login/index.php');
+    exit();
+}
 
-$admin_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Ben Hugh';
-$admin_status_class = isset($_SESSION['is_online']) && $_SESSION['is_online'] ? 'online' : 'offline';
+// Get the admin name and status
+$admin_id = $_SESSION['user_id'];
+$admin_name = $_SESSION['username'];
+$admin_status_class = $_SESSION['is_online'] ? 'online' : 'offline';
 
 // Filter logic
 $where = '1=1'; // Default condition
