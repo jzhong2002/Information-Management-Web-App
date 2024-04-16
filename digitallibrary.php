@@ -26,6 +26,7 @@
                 <div class="form-group">
                     <a href="login/login.php" class="btn btn-primary btn-block">Staff</a>
                     <a href="login/index.php" class="btn btn-primary btn-block">Admin</a>
+                    <a href="login/registration.php" class="btn btn-primary btn-block">Register</a>
                 </div>
             </div>
         </div>

@@ -77,6 +77,7 @@ if (isset($_POST['adminLogin'])) {
 							<!-- automatically pass job role as admin-->
 							<input type="hidden" name="job_role" value="Admin">
                             <button type="submit" class="btn btn-primary" name="adminLogin">Login</button>
+                            <a href="../login/registration.php">Registration</a>
                         </form>
                     </div>
                 </div>
