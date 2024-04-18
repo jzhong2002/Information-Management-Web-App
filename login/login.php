@@ -11,7 +11,7 @@ function authenticateUser($username, $password, $job_role) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        if ($password == $user['password'] && $job_role == $user['staff']) {
+        if ($password == $user['password'] && $job_role == $user['job_role']) {
             return $user;
         }
     }
@@ -77,7 +77,7 @@ if (isset($_POST['staffLogin'])) {
 							<!-- automatically pass job role as staff-->
 							<input type="hidden" name="job_role" value="Staff">
                             <button type="submit" class="btn btn-primary" name="staffLogin">Login</button>
-                            <a href="../login/registration.php">Registration</a>
+                            <a href="../digitallibrary.php">Main Panel</a>
                         </form>
                     </div>
                 </div>

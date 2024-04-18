@@ -224,8 +224,8 @@ if (!$result) {
                         <thead>
                             <tr>
                                 <th>Member ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Firstname</th>
+                                <th>Surname</th>
                                 <th>Gender</th>
                                 <th>Phone No</th>
                                 <th>Email</th>
@@ -248,11 +248,15 @@ if (!$result) {
                                     <td>£<?php echo number_format($row['amount_due'], 2); ?></td>
                                     <td><?php echo $row['expiry_date']; ?></td>
                                     <td><?php echo $row['status']; ?></td>
+                                    <td>
+                                    <a href="editpenalty.php?id=<?php echo $row['id'];?>" class="btn btn-warning">Edit</a>
+                                    </td>
                                 </tr>
                             <?php endwhile; ?>
                         </tbody>
                     </table>
                     <div class="card-footer">
+                        <a href="addpenalty.php" class="btn btn-primary">Add Penalty Record</a>
                         <a href="fine.php" class="btn btn-success">Issue Fine</a>
                         <?php
                         $showReturnButton = false;

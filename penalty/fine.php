@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script>
     function goBack() {
-        window.history.back();
+        window.location.href = "index.php";
     }
 
     <?php if (isset($success) && $success === true): ?>

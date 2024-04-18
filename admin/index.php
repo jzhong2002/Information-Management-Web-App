@@ -3,6 +3,25 @@ session_start();
 require_once __DIR__ . '/../config/db.php';
 require_once 'config/functions.php';
 
+// Check if the action=delete parameter is present in the URL.
+// If so, it retrieves the id value and performs the deletion using a DELETE query.
+if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+    $id = $_GET['id'];
+    echo "User ID to be deleted: " . $id; // Debug statement
+
+    $query = "DELETE FROM users WHERE id = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("i", $id);
+
+    if ($stmt->execute()) {
+        $success = "Record deleted successfully!";
+    } else {
+        $error = "Error deleting record: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+
 if(!isset($_SESSION['user_id']) || !isset($_SESSION['is_online'])){
     header('Location: ../login/index.php');
     exit();
@@ -213,25 +232,11 @@ $stmt->close();
             }
         });
 
-        // Check if the action=delete parameter is present in the URL.
-        // If so, it retrieves the id value and performs the deletion using a DELETE query.
-        <?php
-        if (isset($_GET['action']) && $_GET['action'] == 'delete') {
-            $id = $_GET['id'];
-
-            $query = "DELETE FROM users WHERE id = ?";
-            $stmt = $con->prepare($query);
-            $stmt->bind_param("i", $id);
-
-            if ($stmt->execute()) {
-                $success = "Record deleted successfully!";
-            } else {
-                $error = "Error deleting record: " . $stmt->error;
-            }
-
-            $stmt->close();
-        }
-        ?>
+        function confirmDelete(Id) {
+           if (confirm("Are you sure you want to delete this record?")) {
+               window.location.href = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?action=delete&id=" + Id;
+           }
+       }
     </script>
 </head>
 <body class="bg-dark">
@@ -313,24 +318,6 @@ $stmt->close();
             </div>
         </div>
     </div>
-
-    <?php
-    if (isset($_GET['action']) && $_GET['action'] == 'delete') {
-        $users_id = $_GET["id"];
-
-        $query = "DELETE FROM users WHERE id = ?";
-        $stmt = $con->prepare($query);
-        $stmt->bind_param("i", $id);
-
-        if ($stmt->execute()) {
-            $success = true;
-        } else {
-            echo "Error: " . $stmt->error;
-        }
-
-        $stmt->close();
-    }
-    ?>
 
     <script>
         <?php if (isset($success) && $success === true): ?>

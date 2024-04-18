@@ -197,26 +197,12 @@ if (!$result) {
             }
         });
 
-        // Check if the action=delete parameter is present in the URL.
-        // If so, it retrieves the id value and performs the deletion using a DELETE query.
-        <?php
-        if (isset($_GET['action']) && $_GET['action'] == 'delete') {
-            $id = $_GET['id'];
-
-            $query = "DELETE FROM penalty WHERE id = ?";
-            $stmt = $con->prepare($query);
-            $stmt->bind_param("i", $id);
-
-            if ($stmt->execute()) {
-                $success = "Record deleted successfully!";
-            } else {
-                $error = "Error deleting record: " . $stmt->error;
-            }
-
-            $stmt->close();
-        }
-        ?>
-    </script>
+        function confirmDelete(borrowerId) {
+           if (confirm("Are you sure you want to delete this record?")) {
+               window.location.href = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?action=delete&borrower_id=" + borrowerId;
+           }
+       }
+</script>
 </head>
 <body class="bg-dark">
 <div class="sidenav">
@@ -309,7 +295,7 @@ if (!$result) {
                                     <td><?php echo $row['status']; ?></td>
                                     <td>
                                         <!-- This button will trigger the deletion process when clicked. -->
-                                        <button class="btn btn-danger custom-btn" href="?action=delete&id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
+                                         <button class="btn btn-danger" onclick="confirmDelete(<?php echo $row['id']; ?>)">Delete</button>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>
@@ -341,7 +327,7 @@ if (!$result) {
     if (isset($_GET['action']) && $_GET['action'] == 'return') {
         $id = $_GET["id"];
 
-        $query = "UPDATE FROM issuedbooks WHERE id = ?";
+        $query = "UPDATE FROM penalty WHERE id = ?";
         $stmt = $con->prepare($query);
         $stmt->bind_param("i", $id);
 

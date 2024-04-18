@@ -23,7 +23,7 @@ if (ISSET($_POST['register'])) {
 
             $_SESSION['message'] = array("text" => "User successfully created.", "alert" => "info");
             $conn = null;
-            header('location:index.php');
+            header('location: index.php');
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

@@ -56,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </script>
 <script>
     function goBack() {
+        event.preventDefault();
         window.history.back();
     }
 
@@ -96,7 +97,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                             <div class="form-group">
                                 <label for="gender">Gender</label>
-                                <input type="text" class="form-control" id="gender" name="gender" value="<?php echo $users['gender']; ?>" required>
+                                <select class="form-control" id="gender" name="gender" required>
+                                <option value="Male" <?php if ($users['gender'] == 'Male') echo 'selected'; ?>>Male</option>
+                                <option value="Female"<?php if ($users['gender'] == 'Female') echo 'selected'; ?>>Female</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="price">Date of Birth</label>
@@ -112,7 +116,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                             <div class="form-group">
                                 <label for="job_role">Job Role</label>
-                                <input type="text" class="form-control" id="job_role" name="job_role" value="<?php echo $users['job_role']; ?>" required>
+                                <select class="form-control" id="job_role" name="job_role" required>
+                                    <option value="Staff" <?php if ($users['job_role'] == 'Staff') echo 'selected' ;?>>Staff</option>
+                                    <option value="Admin" <?php if ($users['job_role'] == 'Admin') echo 'selected'; ?>>Admin</option>
+                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="status">Status</label>
@@ -123,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-success">Update Record</button>
-                            <button type="return" class="btn btn-danger" onclick="goBack()">Cancel</button>
+                            <button type="button" class="btn btn-danger" onclick="goBack()">Cancel</button>
                         </form>
                     </div>
                 </div>

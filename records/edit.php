@@ -53,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </script>
 <script>
     function goBack() {
+        event.preventDefault();
         window.history.back();
     }
 
@@ -103,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="text" class="form-control" id="location" name="location" value="<?php echo $book['location']; ?>" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Update Book</button>
-                            <button type="return" class="btn btn-danger" onclick="goBack()">Cancel</button>
+                            <button type="button" class="btn btn-danger" onclick="goBack()">Cancel</button>
                         </form>
                     </div>
                 </div>
