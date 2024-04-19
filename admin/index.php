@@ -279,6 +279,7 @@ $stmt->close();
                                 <thead>
                                     <tr>
                                         <th>Staff ID</th>
+                                        <th>Title</th>
                                         <th>Firstname</th>
                                         <th>Surname</th>
                                         <th>Gender</th>
@@ -293,6 +294,7 @@ $stmt->close();
                                     <?php while ($row = $result->fetch_assoc()): ?>
                                         <tr>
                                             <td><?php echo $row['id']; ?></td>
+                                            <td><?php echo $row['title']; ?></td>
                                             <td><?php echo $row['firstname']; ?></td>
                                             <td><?php echo $row['surname']; ?></td>
                                             <td><?php echo $row['gender']; ?></td>

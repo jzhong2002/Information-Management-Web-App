@@ -91,6 +91,7 @@ if (isset($_GET['search_term'])) {
                                 <thead>
                                     <tr>
                                         <th>Issue ID</th>
+                                        <th>Title</th>
                                         <th>Firstname</th>
                                         <th>Surname</th>
                                         <th>Phone No</th>
@@ -109,6 +110,7 @@ if (isset($_GET['search_term'])) {
                                     <?php while ($row = $result->fetch_assoc()): ?>
                                         <tr>
                                             <td><?php echo $row['id']; ?></td>
+                                            <td><?php echo $row['title']; ?></td>
                                             <td><?php echo $row['firstname']; ?></td>
                                             <td><?php echo $row['surname']; ?></td>
                                             <td><?php echo $row['phone']; ?></td>

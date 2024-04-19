@@ -6,18 +6,19 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $users_id = $_POST["id"];
-    $firstname = $_POST["firstname"];
-    $surname = $_POST["surname"];
-    $gender = $_POST["gender"];
+    $title = ucfirst(strtolower($_POST['title']));
+    $firstname = ucfirst(strtolower($_POST['firstname']));
+    $surname = ucfirst(strtolower($_POST['surname']));
+    $gender = ucfirst(strtolower($_POST["gender"]));
     $date_of_birth = $_POST["date_of_birth"];
     $username = $_POST["username"];
     $password = $_POST["password"];
-    $job_role = $_POST["job_role"];
-    $status = $_POST["status"];
+    $job_role = ucfirst(strtolower($_POST["job_role"]));
+    $status = ucfirst(strtolower($_POST["status"]));
 
-    $query = "UPDATE users SET firstname = ?, surname = ?, gender = ?, date_of_birth = ?, username = ?, password = ?, job_role = ?, status = ? WHERE id = ?";
+    $query = "UPDATE users SET title = ?, firstname = ?, surname = ?, gender = ?, date_of_birth = ?, username = ?, password = ?, job_role = ?, status = ? WHERE id = ?";
     $stmt = $con->prepare($query);
-    $stmt->bind_param("ssssssssi", $firstname, $surname, $gender, $date_of_birth, $username, $password, $job_role, $status, $users_id);
+    $stmt->bind_param("sssssssssi", $title, $firstname, $surname, $gender, $date_of_birth, $username, $password, $job_role, $status, $users_id);
 
     if ($stmt->execute()) {
         $success = true;
@@ -47,6 +48,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <title>Edit Records</title>
     <script>
+        function validateForm() {
+            var dobInput = document.getElementById("date_of_birth");
+            var dob = new Date(dobInput.value);
+            var today = new Date();
+            var age = today.getFullYear() - dob.getFullYear();
+            var monthDiff = today.getMonth() - dob.getMonth();
+
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+
+            if (age < 18) {
+                alert("The staff must be at least 18 years old.");
+                dobInput.focus();
+                return false;
+            }
+
+            var phoneInput = document.getElementById("phone");
+            var phonePattern = /^\d+$/;
+            if (!phonePattern.test(phoneInput.value)) {
+                alert ("Please enter a valid phone number.");
+                phoneInput.focus();
+                return false;
+            }
+
+            var emailInput = document.getElementById('email');
+            var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (!emailPattern.test(emailInput.value)) {
+                alert ("Please enter a valid email address.");
+                emailInput.focus();
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+    <script>
     <?php if (isset($success) && $success === true): ?>
         window.onload = function() {
             alert("Staff details updated successfully!");
@@ -73,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="col">
                 <div class="card mt-5">
                     <div class="card-header bg-primary text-white">
-                        <h2 class="display-6 text-center">Edit Record</h2>
+                        <h2 class="display-6 text-center">Edit Staff Record</h2>
                     </div>
                     <div class="card-body">
                         <?php if (isset($success) && $success === true): ?>
@@ -85,8 +123,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <?php echo $error; ?>
                             </div>
                         <?php endif; ?>
-                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validateForm()">
                             <input type="hidden" name="id" value="<?php echo $users['id']; ?>">
+                            <div class="form-group">
+                            <label for="title">Title</label>
+                                <select class="form-control" name="title" id="title" value="<?php echo $users['title']; ?>" required>
+                                    <option value="Select">Select a title</option>
+                                    <option value="mr">Mr</option>
+                                    <option value="mrs">Mrs</option>
+                                    <option value="miss">Miss</option>
+                                    <option value="ms">Ms</option>
+                                    <option value="dr">Dr</option>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label for="name">Firstname</label>
                                 <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $users['firstname']; ?>" required>
@@ -100,6 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <select class="form-control" id="gender" name="gender" required>
                                 <option value="Male" <?php if ($users['gender'] == 'Male') echo 'selected'; ?>>Male</option>
                                 <option value="Female"<?php if ($users['gender'] == 'Female') echo 'selected'; ?>>Female</option>
+                                <option value="Other"<?php if ($users['gender'] == 'Other') echo 'selected'; ?>>Other</option>
                                 </select>
                             </div>
                             <div class="form-group">

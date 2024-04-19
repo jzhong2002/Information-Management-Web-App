@@ -224,6 +224,7 @@ if (!$result) {
                         <thead>
                             <tr>
                                 <th>Member ID</th>
+                                <th>Title</th>
                                 <th>Firstname</th>
                                 <th>Surname</th>
                                 <th>Gender</th>
@@ -239,6 +240,7 @@ if (!$result) {
                             <?php while ($row = mysqli_fetch_assoc($result)): ?>
                                 <tr>
                                     <td><?php echo $row['id']; ?></td>
+                                    <td><?php echo $row['title']; ?></td>
                                     <td><?php echo $row['firstname']; ?></td>
                                     <td><?php echo $row['surname']; ?></td>
                                     <td><?php echo $row['gender']; ?></td>

@@ -6,7 +6,7 @@ session_start();
 
 $search_term = isset($_GET['search_term']) ? '%' . $_GET['search_term'] . '%' : '';
 
-$query = "SELECT * FROM users WHERE firstname LIKE ? OR surname LIKE ?";
+$query = "SELECT * FROM borrowers WHERE firstname LIKE ? OR surname LIKE ?";
 $stmt = $con->prepare($query);
 $stmt->bind_param("ss", $search_term, $search_term);
 $stmt->execute();
@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <title>Staff Records</title>
+    <title>Library Member Records</title>
     <style>
         .card-body {
             display: flex;
@@ -59,7 +59,7 @@ if ($result->num_rows > 0) {
                 <div class="col">
                     <div class="card mt-5">
                         <div class="card-header bg-primary text-white">
-                            <h2 class="display-6 text-center">Staff Records</h2>
+                            <h2 class="display-6 text-center">Library Member Records</h2>
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-end mb-3">
@@ -82,31 +82,29 @@ if ($result->num_rows > 0) {
                                 <table class="table table-bordered table-striped mx-auto mt-3">
                                     <thead>
                                         <tr>
-                                            <th>Staff ID</th>
+                                            <th>Id</th>
                                             <th>Title</th>
                                             <th>First Name</th>
                                             <th>Last Name</th>
                                             <th>Gender</th>
-                                            <th>Date of Birth</th>
-                                            <th>Username</th>
-                                            <th>Password</th>
-                                            <th>Job Role</th>
-                                            <th>Authorization Status</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
+                                            <th>Date of Birth/th>
+                                            <th>Address</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php while ($row = $result->fetch_assoc()): ?>
                                             <tr>
-                                                <td><?php echo $row['id']; ?></td>
+                                                <td><?php echo $row['borrower_id']; ?></td>
                                                 <td><?php echo $row['title']; ?></td>
                                                 <td><?php echo $row['firstname']; ?></td>
                                                 <td><?php echo $row['surname']; ?></td>
                                                 <td><?php echo $row['gender']; ?></td>
+                                                <td><?php echo $row['phone']; ?></td>
+                                                <td><?php echo $row['email']; ?></td>
                                                 <td><?php echo $row['date_of_birth']; ?></td>
-                                                <td><?php echo $row['username']; ?></td>
-                                                <td><?php echo $row['password']; ?></td>
-                                                <td><?php echo $row['job_role']; ?></td>
-                                                <td><?php echo ucfirst($row['status']); ?></td>
+                                                <td><?php echo ucfirst($row['address']); ?></td>
                                             </tr>
                                         <?php endwhile; ?>
                                     </tbody>
@@ -114,7 +112,7 @@ if ($result->num_rows > 0) {
                             <?php endif; ?>
                         </div>
                         <div class="card-footer">
-                            <a href="index.php" class="btn btn-primary">Go Back</a>
+                            <a href="borrowers.php" class="btn btn-primary">Go Back</a>
                             <a href="authorise_user.php" class="btn btn-success">Authorise User</a>
                         </div>
                     </div>

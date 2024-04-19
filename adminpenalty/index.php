@@ -269,8 +269,9 @@ if (!$result) {
                         <thead>
                             <tr>
                                 <th>Member ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Title</th>
+                                <th>Firstname</th>
+                                <th>Surname</th>
                                 <th>Gender</th>
                                 <th>Phone No</th>
                                 <th>Email</th>
@@ -284,6 +285,7 @@ if (!$result) {
                             <?php while ($row = mysqli_fetch_assoc($result)): ?>
                                 <tr>
                                     <td><?php echo $row['id']; ?></td>
+                                    <td><?php echo $row['title']; ?></td>
                                     <td><?php echo $row['firstname']; ?></td>
                                     <td><?php echo $row['surname']; ?></td>
                                     <td><?php echo $row['gender']; ?></td>

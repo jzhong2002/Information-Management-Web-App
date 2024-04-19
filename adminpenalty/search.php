@@ -91,6 +91,7 @@ if (isset($_GET['search_term'])) {
                                 <thead>
                                     <tr>
                                         <th>Member ID</th>
+                                        <th>Title</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Gender</th>
@@ -111,6 +112,7 @@ if (isset($_GET['search_term'])) {
                                     <?php while ($row = $result->fetch_assoc()): ?>
                                         <tr>
                                             <td><?php echo $row['id']; ?></td>
+                                            <td><?php echo $row['title']; ?></td>
                                             <td><?php echo $row['firstname']; ?></td>
                                             <td><?php echo $row['surname']; ?></td>
                                             <td><?php echo $row['gender']; ?></td>

@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="">Select Status</option>
                     <option value="pending">Pending</option>
                     <option value="authorised">Authorised</option>
-                    <option value="not authorised">Not Authorised</option>
+                    <option value="denied">Denied</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-success">Authorise</button>

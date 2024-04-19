@@ -5,6 +5,7 @@ require_once 'config/functions.php';
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $title = $_POST["title"];
     $firstname = $_POST["firstname"];
     $surname = $_POST["surname"];
     $gender = $_POST["gender"];
@@ -15,9 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $expiry_date = $_POST["expiry_date"];
     $status = $_POST["status"];
 
-    $query = "INSERT INTO penalty (firstname, surname, gender, phone, email, book_borrowed, amount_due, expiry_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO penalty (title, firstname, surname, gender, phone, email, book_borrowed, amount_due, expiry_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $con->prepare($query);
-    $stmt->bind_param("sssssssss", $firstname, $surname, $gender, $phone, $email, $book_borrowed, $amount_due, $expiry_date, $status);
+    $stmt->bind_param("ssssssssss", $title, $firstname, $surname, $gender, $phone, $email, $book_borrowed, $amount_due, $expiry_date, $status);
 
     if ($stmt->execute()) {
         $success = true;
@@ -68,6 +69,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="card-body">
                         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                                <select class="form-control" name="title" id="title" required>
+                                    <option value="Select">Select a title</option>
+                                    <option value="mr">Mr</option>
+                                    <option value="mrs">Mrs</option>
+                                    <option value="miss">Miss</option>
+                                    <option value="ms">Ms</option>
+                                    <option value="dr">Dr</option>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label for="firstname">Firstname</label>
                                 <input type="text" class="form-control" id="firstname" name="firstname" required>
@@ -81,6 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <select class="form-control" id="gender" name="gender" required>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
+                                    <option value="other">Other</option>
                                 </select>
                             </div>
                             <div class="form-group">

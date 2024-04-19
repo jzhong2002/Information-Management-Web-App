@@ -271,7 +271,7 @@ $stmt->close();
                        </div>
                        <div class="card-body">
                            <div class="d-flex justify-content-end mb-3">
-                           <form action="search.php" method="get" class="search-container">
+                           <form action="searchmember.php" method="get" class="search-container">
                                    <input type="text" name="search_term" class="form-control" placeholder="Search Member" required>
                                    <div class="input-group-append">
                                        <button class="btn btn-primary search-btn" type="submit" id="searchButton">Search</button>
@@ -287,6 +287,7 @@ $stmt->close();
                                <thead>
                                    <tr>
                                        <th>ID</th>
+                                       <th>Title</th>
                                        <th>Firstname</th>
                                        <th>Surname</th>
                                        <th>Gender</th>
@@ -300,6 +301,7 @@ $stmt->close();
                                    <?php while ($row = $result->fetch_assoc()): ?>
                                        <tr>
                                            <td><?php echo $row['borrower_id']; ?></td>
+                                           <td><?php echo $row['title']; ?></td>
                                            <td><?php echo $row['firstname']; ?></td>
                                            <td><?php echo $row['surname']; ?></td>
                                            <td><?php echo $row['gender']; ?></td>

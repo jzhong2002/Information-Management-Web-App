@@ -3,8 +3,9 @@ require_once __DIR__ . '/../config/db.php';
 require_once 'config/functions.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstname = $_POST["firstname"];
-    $surname = $_POST["surname"];
+    $title = ucfirst(strtolower($_POST['title']));
+    $firstname = ucfirst(strtolower($_POST['firstname']));
+    $surname = ucfirst(strtolower($_POST['surname']));
     $phone = $_POST["phone"];
     $email = $_POST["email"];
     $book_name = $_POST["book_name"];
@@ -24,9 +25,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stock > 0) {
             // Book exists and has enough stock, proceed with issuing the book
-            $query = "INSERT INTO issuedbooks (firstname, surname, phone, email, book_name, expiry_date, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO issuedbooks (title, firstname, surname, phone, email, book_name, expiry_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $con->prepare($query);
-            $stmt->bind_param("sssssss", $firstname, $surname, $phone, $email, $book_name, $expiry_date, $status);
+            $stmt->bind_param("ssssssss", $title, $firstname, $surname, $phone, $email, $book_name, $expiry_date, $status);
 
             if ($stmt->execute()) {
                 $success = true;
@@ -113,6 +114,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="card-body">
                         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validateForm()">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                                <select class="form-control" name="title" id="title" required>
+                                    <option value="Select">Select a title</option>
+                                    <option value="mr">Mr</option>
+                                    <option value="mrs">Mrs</option>
+                                    <option value="miss">Miss</option>
+                                    <option value="ms">Ms</option>
+                                    <option value="dr">Dr</option>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label for="firstname">Firstname</label>
                                 <input type="text" class="form-control" id="firstname" name="firstname" required pattern="[a-zA-Z]+">

@@ -4,19 +4,20 @@ require_once 'config/functions.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
-    $firstname = $_POST["firstname"];
-    $surname = $_POST["surname"];
-    $gender = $_POST["gender"];
+    $title = ucfirst(strtolower($_POST['title']));
+    $firstname = ucfirst(strtolower($_POST['firstname']));
+    $surname = ucfirst(strtolower($_POST['surname']));
+    $gender = ucfirst(strtolower($_POST["gender"]));
     $phone = $_POST["phone"];
     $email = $_POST["email"];
     $book_borrowed = $_POST["book_borrowed"];
     $amount_due = $_POST["amount_due"];
     $expiry_date = date('Y-m-d', strtotime($_POST["expiry_date"]));
-    $status = $_POST["status"];
+    $status = ucfirst(strtolower($_POST["status"]));
 
-    $query = "UPDATE penalty SET firstname = ?, surname = ?, gender = ?, phone = ?, email = ?, book_borrowed = ?, amount_due = ?, expiry_date = ?, status = ? WHERE id = ?";
+    $query = "UPDATE penalty SET title = ?, firstname = ?, surname = ?, gender = ?, phone = ?, email = ?, book_borrowed = ?, amount_due = ?, expiry_date = ?, status = ? WHERE id = ?";
     $stmt = $con->prepare($query);
-    $stmt->bind_param("sssississi", $firstname, $surname, $gender, $phone, $email, $book_borrowed, $amount_due, $expiry_date, $status, $id);
+    $stmt->bind_param("ssssississi", $title, $firstname, $surname, $gender, $phone, $email, $book_borrowed, $amount_due, $expiry_date, $status, $id);
 
     if ($stmt->execute()) {
         $success = true;
@@ -77,6 +78,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                             <input type="hidden" name="id" value="<?php echo $book['id']; ?>">
                             <div class="form-group">
+                            <label for="title">Title</label>
+                                <select class="form-control" name="title" id="title" required>
+                                    <option value="Select">Select a title</option>
+                                    <option value="mr">Mr</option>
+                                    <option value="mrs">Mrs</option>
+                                    <option value="miss">Miss</option>
+                                    <option value="ms">Ms</option>
+                                    <option value="dr">Dr</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="firstname">Firstname</label>
                                 <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $book['firstname']; ?>" required>
                             </div>
@@ -89,6 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <select class="form-control" id="gender" name="gender" value="<?php echo $book['gender']; ?>" required>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
+                                    <option value="other">Other</option>
                                 </select> 
                             </div>
                             <div class="form-group">
@@ -115,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label for="status">Status</label>
                                 <select class="form-control" id="status" name="status" value="<?php echo $book['status']; ?>" required>
                                     <option value="paid">Paid</option>
-                                    <option value="unpaid">Not Paid</option> 
+                                    <option value="not paid">Not Paid</option> 
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-success">Update Book</button>

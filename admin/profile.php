@@ -215,6 +215,7 @@ $stmt->close(); // Close the statement
                             <div class="row justify-content-center">
                                 <div class="col">
                                     <div class="card mt-5">
+                        <h5>Title: <?php echo isset($admin['title']) ? $admin['title'] : ''; ?></h5>
                         <h5>Firstname: <?php echo isset($admin['firstname']) ? $admin['firstname'] : ''; ?></h5>
                         <h5>Surname: <?php echo isset($admin['surname']) ? $admin['surname'] : ''; ?></h5>
                         <h5>Gender: <?php echo isset($admin['gender']) ? $admin['gender'] : ''; ?></h5>
