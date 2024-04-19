@@ -11,7 +11,7 @@ function authenticateUser($username, $password, $job_role) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        if ($password == $user['password'] && $job_role == $user['job_role']) {
+        if ($password == $user['password'] && $job_role == $user['job_role'] && $user['status'] == 'Authorised') {
             return $user;
         }
     }
@@ -35,7 +35,7 @@ if (isset($_POST['staffLogin'])) {
     } else {
         $_SESSION['message'] = [
             'alert' => 'danger',
-            'text' => 'Invalid credentials or you do not have access rights into the staff panel.'
+            'text' => 'Invalid credentials or you have not yet been authorised. Contact the administrator'
         ];
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();

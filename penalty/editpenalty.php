@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <option value="not paid">Not Paid</option> 
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-success">Update Book</button>
+                            <button type="submit" class="btn btn-success">Update Record</button>
                             <button type="return" class="btn btn-danger" onclick="goBack()">Cancel</button>
                         </form>
                     </div>

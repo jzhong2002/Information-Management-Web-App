@@ -176,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <select class="form-control" id="status" name="status" required>
                                     <option value="pending" <?php if ($users['status'] == 'pending') echo 'selected'; ?>>Pending</option>
                                     <option value="authorised" <?php if ($users['status'] == 'authorised') echo 'selected'; ?>>Authorised</option>
-                                    <option value="unauthorised" <?php if ($users['status'] == 'unauthorised') echo 'selected'; ?>>Unauthorised</option>
+                                    <option value="denied" <?php if ($users['status'] == 'denied') echo 'selected'; ?>>Denied</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-success">Update Record</button>
